@@ -49,6 +49,8 @@ class Task extends EloquentModel{
 			$tasks = self::select('id', 'name', 'email', 'text', 'status')->limit(3)->offset(0)->get();
 		}elseif($page == 2){
 			$tasks = self::select('id', 'name', 'email', 'text', 'status')->limit(3)->offset(3)->get();
+		}elseif($page == ''){
+			$tasks = Task::select('id', 'name', 'email', 'text', 'status')->limit(3)->offset(0)->get();
 		}else{
 			$tasks = self::select('id', 'name', 'email', 'text', 'status')->limit(3)->offset(3 * $page)->get();
 		}
