@@ -64,7 +64,7 @@ class ComposerStaticInitb54f456a43de869066cb7ca3d3bfce73
         ),
         'Models\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/Models',
+            0 => __DIR__ . '/../..' . '/models',
         ),
         'Illuminate\\Support\\' => 
         array (
@@ -92,15 +92,15 @@ class ComposerStaticInitb54f456a43de869066cb7ca3d3bfce73
         ),
         'Database\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/Database',
+            0 => __DIR__ . '/../..' . '/database',
         ),
         'Controllers\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/Controllers',
+            0 => __DIR__ . '/../..' . '/controllers',
         ),
         'Config\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/Config',
+            0 => __DIR__ . '/../..' . '/config',
         ),
     );
 

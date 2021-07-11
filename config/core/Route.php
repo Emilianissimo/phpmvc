@@ -9,9 +9,9 @@ class Route{
 
 		$routes = explode('/', $_SERVER['REQUEST_URI']);
 		if (!empty($routes[1])) {
-			$controllerName = $routes[1];
+			$controllerName = ucfirst($routes[1]);
 			if (strpos($routes[1], '?')) {
-				$controllerName = substr($routes[1], 0, strpos($routes[1], "?"));;
+				$controllerName = substr(ucfirst($routes[1]), 0, strpos(ucfirst($routes[1]), "?"));;
 			}
 		}
 

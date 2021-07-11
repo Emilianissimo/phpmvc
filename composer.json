@@ -6,10 +6,10 @@
 	 },
     "autoload": {
         "psr-4": {
-            "Config\\": "Config/",
-            "Controllers\\": "Controllers/",
-            "Models\\": "Models/",
-            "Database\\": "Database/"
+            "Config\\": "config/",
+            "Controllers\\": "controllers/",
+            "Models\\": "models/",
+            "Database\\": "database/"
         },
         "classmap": [
  
