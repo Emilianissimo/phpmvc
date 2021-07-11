@@ -29,6 +29,8 @@ class TaskController extends Controller{
 				$tasks = Task::select('id', 'name', 'email', 'text', 'status')->limit(3)->offset(0)->orderBy($option, $order)->get();
 				}elseif($page == 2){
 					$tasks = Task::select('id', 'name', 'email', 'text', 'status')->limit(3)->offset(3)->orderBy($option, $order)->get();
+				}elseif($page == ''){
+				    $tasks = Task::select('id', 'name', 'email', 'text', 'status')->limit(3)->offset(0)->orderBy($option, $order)->get();
 				}else{
 					$tasks = Task::select('id', 'name', 'email', 'text', 'status')->limit(3)->offset(3 * $page)->orderBy($option, $order)->get();
 				}
