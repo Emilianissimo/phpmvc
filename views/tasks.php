@@ -21,7 +21,7 @@
 	</div>
 	<div class="col-md-12">
 			<b>Сортировать по: </b>
-			<a href="?option=name&order=ASC&page=<?php echo $page ?>">Имени ASC</a>|<a href="?option=name&order=DESC&page=<?php echo $page ?>">DESC</a> / <a href="?option=email&order=ASC&page=<?php echo $page ?>">Email ASC</a>|<a href="?option=email&order=DESC&page=<?php echo $page ?>">DESC</a> / <a href="?option=status*order=ASC&page=<?php echo $page ?>">Статусу ASC</a>|<a href="?option=status&order=DESC&page=<?php echo $page ?>">DESC</a>
+			<a href="/task?option=name&order=ASC&page=<?php echo $page ?>">Имени ASC</a>|<a href="/task?option=name&order=DESC&page=<?php echo $page ?>">DESC</a> / <a href="/task?option=email&order=ASC&page=<?php echo $page ?>">Email ASC</a>|<a href="/task?option=email&order=DESC&page=<?php echo $page ?>">DESC</a> / <a href="/task?option=status*order=ASC&page=<?php echo $page ?>">Статусу ASC</a>|<a href="/task?option=status&order=DESC&page=<?php echo $page ?>">DESC</a>
 		</form>
 		<table id="tasksTable" class="table table-bordered table-striped">
 			<thead>
@@ -62,7 +62,7 @@
 						<?php if ($_SESSION['admin'] === 1) {?>
 						<td class="text-center">
 							<button type="button" class="btn btn-warning edit">Изменить</button>
-							<form action="task/destroy" method="POST" class="mt-2">
+							<form action="/task/destroy" method="POST" class="mt-2">
 								<input type="hidden" name="id" value="<?php echo $task->id ?>">
 					      	  	<input type="hidden" name="location" value="<?php echo "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" ?>">
 								<input type="hidden" name="login" value="<?php echo "http://$_SERVER[HTTP_HOST]/login" ?>">
@@ -79,9 +79,9 @@
 		    <?php foreach(range(1, $pageCount) as $p){
 		    	if(isset($order) && isset($option)){
 		    	?>
-					<li class="page-item <?php if ($page == $p){ ?> active <?php } ?>"><a class="page-link" href="?option=<?php echo $option ?>&order=<?php echo $order ?>&page=<?php echo $p ?>"><?php echo $p ?></a></li>
+					<li class="page-item <?php if ($page == $p){ ?> active <?php } ?>"><a class="page-link" href="/task?option=<?php echo $option ?>&order=<?php echo $order ?>&page=<?php echo $p ?>"><?php echo $p ?></a></li>
 				<?php }else{ ?>
-					<li class="page-item <?php if ($page == $p){ ?> active <?php } ?>"><a class="page-link" href="?page=<?php echo $p ?>"><?php echo $p ?></a></li>
+					<li class="page-item <?php if ($page == $p){ ?> active <?php } ?>"><a class="page-link" href="/task?page=<?php echo $p ?>"><?php echo $p ?></a></li>
 		 	<?php } ?>
 		 	<?php } ?>
 		  </ul>
