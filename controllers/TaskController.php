@@ -40,8 +40,12 @@ class TaskController extends Controller{
 		exit();
 	}
 
-	public function delete($id)
+	public function destroy($id)
 	{
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			$task = Task::find($_POST['id']);
+			$task->remove();
+		}
 		header("Location: ". $_SERVER['HTTP_HOST']."/task"); 
 		exit();
 	}
