@@ -11,16 +11,30 @@ class TaskController extends Controller{
 
 	function __construct()
 	{
-		// $this->model = new Task;
 		$this->view = new View;
 	}
 
 	public function index()
 	{
 		$dt = new Database; 
-		$page = $_GET['page'];
+		$page = $_GET['page'] ?? 1;
+		$pageCount = ceil(Task::all()->count() / 3);
 		$tasks = Task::paginate(3, $page);
-		return $this->view->render('tasks.php', 'layout.php', ['tasks'=>$tasks]);
+		$option = $_GET['option'];
+		$order = $_GET['order'];
+		if (isset($option)) {
+			$tasks = Task::select('id', 'name', 'email', 'text', 'status')->limit(3)->get();
+			if ($option == 'name' || $option == 'email' || $option == 'status') {
+				if (!isset($page) || $page == 1) {
+				$tasks = Task::select('id', 'name', 'email', 'text', 'status')->limit(3)->offset(0)->orderBy($option, $order)->get();
+				}elseif($page == 2){
+					$tasks = Task::select('id', 'name', 'email', 'text', 'status')->limit(3)->offset(3)->orderBy($option, $order)->get();
+				}else{
+					$tasks = Task::select('id', 'name', 'email', 'text', 'status')->limit(3)->offset(3 * $page)->orderBy($option, $order)->get();
+				}
+			}
+		}
+		return $this->view->render('tasks.php', 'layout.php', ['tasks'=>$tasks, 'pageCount'=>$pageCount, 'page'=>$page, 'option'=>$option, 'order'=>$order]);
 	}
 
 	public function store()
@@ -32,7 +46,8 @@ class TaskController extends Controller{
 				'text'=> $_POST['text'],
 			]);
 			$tasks = Task::paginate(3, $page);
-			return $this->view->render('tasks.php', 'layout.php', ['tasks'=>$tasks, 'message' => 'Задача добавлена']);
+			$pageCount = ceil(Task::all()->count() / 3);
+			return $this->view->render('tasks.php', 'layout.php', ['tasks'=>$tasks, 'message' => 'Задача добавлена', 'pageCount'=>$pageCount, 'page'=>$page]);
 		}
 		header("Location: ". $_POST['location']);
 		exit();
@@ -50,7 +65,8 @@ class TaskController extends Controller{
 					'text'=> '(Отредактировано администиратором) '.$_POST['text'],
 				]);
 				$tasks = Task::paginate(3, $page);
-				return $this->view->render('tasks.php', 'layout.php', ['tasks'=>$tasks, 'messageEdit' => 'Задача изменена']);
+				$pageCount = ceil(Task::all()->count() / 3);
+				return $this->view->render('tasks.php', 'layout.php', ['tasks'=>$tasks, 'messageEdit' => 'Задача изменена', 'pageCount'=>$pageCount, 'page'=>$page]);
 			}
 			header("Location: ". $_POST['location']);
 			exit();
@@ -68,7 +84,8 @@ class TaskController extends Controller{
 				$task = Task::find($_POST['id']);
 				$task->remove();
 				$tasks = Task::paginate(3, $page);
-				return $this->view->render('tasks.php', 'layout.php', ['tasks'=>$tasks, 'messageDelete' => 'Задача удалена']);
+				$pageCount = ceil(Task::all()->count() / 3);
+				return $this->view->render('tasks.php', 'layout.php', ['tasks'=>$tasks, 'messageDelete' => 'Задача удалена', 'pageCount'=>$pageCount, 'page'=>$page]);
 			}
 			header("Location: ". $_POST['location']);
 			exit();
@@ -86,7 +103,8 @@ class TaskController extends Controller{
 				$task = Task::find($_POST['id']);
 				$task->changeStatus($_POST['status']);
 				$tasks = Task::paginate(3, $page);
-				return $this->view->render('tasks.php', 'layout.php', ['tasks'=>$tasks, 'messageChange' => 'Статус изменён']);
+				$pageCount = ceil(Task::all()->count() / 3);
+				return $this->view->render('tasks.php', 'layout.php', ['tasks'=>$tasks, 'messageChange' => 'Статус изменён', 'pageCount'=>$pageCount, 'page'=>$page]);
 			}
 			header("Location: ". $_POST['location']);
 			exit();
@@ -94,22 +112,5 @@ class TaskController extends Controller{
 			header("Location: ". $_POST['login']);
 			exit();
 		}
-	}
-
-	public function order()
-	{
-		$dt = new Database;
-		$option = $_GET['option'];
-		$tasks = Task::select('id', 'name', 'email', 'text', 'status')->limit(3)->get();
-		if ($option == 'name' || $option == 'email' || $option == 'status') {
-			if (!isset($page) || $page == 1) {
-			$tasks = Task::select('id', 'name', 'email', 'text', 'status')->limit(3)->offset(0)->orderBy($option, 'ASC')->get();
-			}elseif($page == 2){
-				$tasks = Task::select('id', 'name', 'email', 'text', 'status')->limit(3)->offset(3)->orderBy($option, 'ASC')->get();
-			}else{
-				$tasks = Task::select('id', 'name', 'email', 'text', 'status')->limit(3)->offset(3 * $page)->orderBy($option, 'ASC')->get();
-			}
-		}
-		return $this->view->render('tasks.php', 'layout.php', ['tasks'=>$tasks]);
 	}
 }

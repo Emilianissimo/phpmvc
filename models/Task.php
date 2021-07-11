@@ -2,7 +2,6 @@
 
 namespace Models;
 
-use Config\Core\Model;
 use Database\Database;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 
