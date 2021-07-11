@@ -1,0 +1,19 @@
+{
+
+	"require": {
+		"illuminate/database": "5.1.8"
+	 },
+    "autoload": {
+        "psr-4": {
+            "Config\\": "config/",
+            "Controllers\\": "controllers/",
+            "Models\\": "models/",
+            "Database\\": "database/"
+        },
+        "classmap": [
+ 
+           "models"
+ 
+       ]
+    }
+}
