@@ -19,7 +19,7 @@ class TaskController extends Controller{
 	{
 		$tasks = Task::getData();
 		// $tasks = $this->model->getData();
-		$this->view->render('tasks.php', 'layout.php', ['tasks'=>$tasks]);
+		return $this->view->render('tasks.php', 'layout.php', ['tasks'=>$tasks]);
 	}
 
 	public function store()
@@ -30,6 +30,8 @@ class TaskController extends Controller{
 				'email'=> $_POST['email'],
 				'text'=> $_POST['text'],
 			]);
+			$tasks = Task::getData();
+			return $this->view->render('tasks.php', 'layout.php', ['tasks'=>$tasks, 'message' => 'Задача добавлена']);
 		}
 		header("Location: ". $_POST['location']);
 		exit();
@@ -37,28 +39,70 @@ class TaskController extends Controller{
 
 	public function update()
 	{
-		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			$dt = new Database;
-			$task = Task::find($_POST['id']);
-			$task->edit([
-				'name'=> $_POST['name'],
-				'email'=> $_POST['email'],
-				'text'=> $_POST['text'],
-			]);
+		if ($_SESSION['admin'] === 1) {
+			if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+				$dt = new Database;
+				$task = Task::find($_POST['id']);
+				$task->edit([
+					'name'=> $_POST['name'],
+					'email'=> $_POST['email'],
+					'text'=> '(Отредактировано администиратором) '.$_POST['text'],
+				]);
+				$tasks = Task::getData();
+				return $this->view->render('tasks.php', 'layout.php', ['tasks'=>$tasks, 'messageEdit' => 'Задача изменена']);
+			}
+			header("Location: ". $_POST['location']);
+			exit();
+		}else{
+			header("Location: ". $_POST['login']);
+			exit();
 		}
-		header("Location: ". $_POST['location']);
-		exit();
 	}
 
 	public function destroy()
 	{
-		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			$dt = new Database;
-			$task = Task::find($_POST['id']);
-			$task->remove();
+		if ($_SESSION['admin'] === 1) {
+			if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_SESSION['admin'] === 1) {
+				$dt = new Database;
+				$task = Task::find($_POST['id']);
+				$task->remove();
+				$tasks = Task::getData();
+				return $this->view->render('tasks.php', 'layout.php', ['tasks'=>$tasks, 'messageDelete' => 'Задача удалена']);
+			}
+			header("Location: ". $_POST['location']);
+			exit();
+		}else{
+			header("Location: ". $_POST['login']);
+			exit();
 		}
-		header("Location: ". $_POST['location']);
-		exit();
 	}
 
+	public function changestatus()
+	{
+		if ($_SESSION['admin'] === 1) {
+			if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_SESSION['admin'] === 1) {
+				$dt = new Database;
+				$task = Task::find($_POST['id']);
+				$task->changeStatus($_POST['status']);
+				$tasks = Task::getData();
+				return $this->view->render('tasks.php', 'layout.php', ['tasks'=>$tasks, 'messageChange' => 'Статус изменён']);
+			}
+			header("Location: ". $_POST['location']);
+			exit();
+		}else{
+			header("Location: ". $_POST['login']);
+			exit();
+		}
+	}
+
+	public function order()
+	{
+		$dt = new Database;
+		$option = $_GET['option'];
+		$tasks = Task::getData();
+		if ($option == 'name' || $option == 'email' || $option == 'status') {
+			$tasks = Task::orderBy($option, 'ASC')->get();
+		}
+		return $this->view->render('tasks.php', 'layout.php', ['tasks'=>$tasks]);
+	}
 }

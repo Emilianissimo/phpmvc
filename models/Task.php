@@ -33,21 +33,19 @@ class Task extends EloquentModel{
 
 	public function edit($fields)
 	{
-		$dt = new Database;
 		$this->fill($fields);
 		$this->save();
 	}
 
 	public function remove()
 	{
-		$dt = new Database;
 		$this->delete();
 	}
 
 	public function changeStatus($value)
 	{
-		$dt = new Database;
 		$this->status = $value;
+		$this->save();
 	}
 
 }

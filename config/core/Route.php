@@ -14,6 +14,9 @@ class Route{
 
 		if (!empty($routes[2])) {
 			$actionName = $routes[2];
+			if (strpos($routes[2], '?')) {
+				$actionName = substr($routes[2], 0, strpos($routes[2], "?"));;
+			}
 		}
 
 		$modelName = $controllerName;
