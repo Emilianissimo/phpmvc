@@ -36,7 +36,8 @@
 							<button type="button" class="btn btn-warning edit">Изменить</button>
 							<form action="task/destroy" method="POST" class="mt-2">
 								<input type="hidden" name="id" value="<?php echo $task->id ?>">
-								<button class="btn btn-danger">Удалить</button>
+					      	  	<input type="hidden" name="location" value="<?php echo "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" ?>">
+								<button onclick="return confirm('Вы уверены, что хотите удалить задачу?')" class="btn btn-danger">Удалить</button>
 							</form>
 						</td>
 					</tr>
@@ -80,7 +81,7 @@
 </div>
 <!-- Modal Update -->
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLongTitle">Изменение задачи</h5>
@@ -88,7 +89,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form id="editForm" method="POST">
+      <form id="editForm" action="/task/update" method="POST">
       <div class="modal-body">
         <input type="hidden" name="location" value="<?php echo "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" ?>">
         <input type="hidden" name="id" id="id">
@@ -105,7 +106,6 @@
   	  		<textarea class="form-control" name="text" id="text"></textarea>
   	  	</div>
       </div>
-      </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
         <button type="submit" class="btn btn-warning">Изменить</button>
@@ -117,7 +117,15 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
-    var table = $('#tasksTable').DataTable();
+    var table = $('#tasksTable').DataTable({
+    	  "paging": false,
+	      "lengthChange": false,
+	      "searching": true,
+	      "ordering": true,
+	      "info": false,
+	      "autoWidth": false,
+	      "responsive": true,
+    });
 
     table.on('click', '.edit', function(){
       $tr = $(this).closest('tr');
@@ -132,7 +140,6 @@
       $('#email').val(data[2])
       $('#text').val(data[3])
 
-      $('#editForm').attr('action', '/tasks/update/')
       $('#editModal').modal('show')
     })
   })

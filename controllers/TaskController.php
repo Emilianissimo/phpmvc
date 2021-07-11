@@ -4,6 +4,7 @@ namespace Controllers;
 
 use Models\Task;
 use Config\Core\View;
+use Database\Database;
 use Config\Core\Controller;
 
 class TaskController extends Controller{
@@ -34,19 +35,29 @@ class TaskController extends Controller{
 		exit();
 	}
 
-	public function update($id)
+	public function update()
 	{
-		header("Location: ". $_SERVER['HTTP_HOST']."/task"); 
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			$dt = new Database;
+			$task = Task::find($_POST['id']);
+			$task->edit([
+				'name'=> $_POST['name'],
+				'email'=> $_POST['email'],
+				'text'=> $_POST['text'],
+			]);
+		}
+		header("Location: ". $_POST['location']);
 		exit();
 	}
 
-	public function destroy($id)
+	public function destroy()
 	{
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			$dt = new Database;
 			$task = Task::find($_POST['id']);
 			$task->remove();
 		}
-		header("Location: ". $_SERVER['HTTP_HOST']."/task"); 
+		header("Location: ". $_POST['location']);
 		exit();
 	}
 

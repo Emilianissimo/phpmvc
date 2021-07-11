@@ -6,7 +6,8 @@
 	<title>Система задач</title>
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-	<script type="text/javascript" src="ks/jquery.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/datatable.css">
+	<script type="text/javascript" src="js/jquery.js"></script>
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -35,5 +36,7 @@
 		<?php include $contentView; ?>
 	</div>
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/datatable.js"></script>
+
 </body>
 </html>
