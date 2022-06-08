@@ -1,11 +1,8 @@
-# Приложение задачник
+# Task manager on self wrote MVC MicroFramework
 
-Данное приложение подготовлено в целях сдачи тестового задания.
-Была использована библиотека Eloquent ORM, вырзванная из Laravel.
-Все остальное самописное. Задачи вроде как полностью выполнены, так что прошу, тестируйте.
+App was developed in case of code challenge for interview.
+I used Eloquent ORM, which is using in Laravel.
+Other components are wrote from scratch.
 
-Подробное описание и комментарии было писать лень. Писал всю ночь с субботы на воскресенье. суммарно потратил 7 часов.
-
-В принципе все по задачам вашим исполнено, так что думаю, и так понятно, что я сделал.
-
-Надеюсь вам понравится.
+Spent 7 hours and it's very old project. Just for fun and education, to understand how MVC frameworks are exacty works.
+Fell free to download and play with it.
